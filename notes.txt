@@ -1,0 +1,40 @@
+Here’s a concise list of commonly used Git Bash commands, organized by functionality:
+
+Basic Commands
+git init – Initialize a new Git repository.
+git clone <repository-url> – Clone a repository to your local machine.
+git status – Check the status of your working directory and staging area.
+git add <file> – Stage changes for commit (use git add . to stage all changes).
+git commit -m "message" – Commit staged changes with a message.
+git log – View commit history.
+Branching and Merging
+git branch – List all branches.
+git branch <branch-name> – Create a new branch.
+git checkout <branch-name> – Switch to a specific branch.
+git merge <branch-name> – Merge a branch into the current branch.
+git branch -d <branch-name> – Delete a branch.
+Remote Repositories
+git remote -v – View remote repository URLs.
+git remote add <name> <url> – Add a new remote repository.
+git pull – Fetch and merge changes from a remote repository.
+git push – Push local changes to a remote repository.
+git push -u origin <branch-name> – Push a branch and set it to track the remote branch.
+Undoing Changes
+git reset <file> – Unstage a file.
+git reset --hard – Reset the working directory and staging area to the last commit.
+git checkout -- <file> – Discard changes in a file.
+git revert <commit-hash> – Create a new commit that undoes a specific commit.
+Stashing
+git stash – Save uncommitted changes for later.
+git stash list – View stashed changes.
+git stash apply – Reapply stashed changes.
+git stash drop – Delete a stash.
+Tagging
+git tag – List all tags.
+git tag <tag-name> – Create a new tag.
+git push origin <tag-name> – Push a tag to the remote repository.
+Miscellaneous
+git diff – Show changes between commits, branches, or the working directory.
+git config – Configure Git settings (e.g., username, email).
+git show <commit-hash> – Show details of a specific commit.
+git rm <file> – Remove a file from the repository and working directory.
