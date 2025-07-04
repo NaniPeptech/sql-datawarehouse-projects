@@ -44,3 +44,5 @@ git diff – Show changes between commits, branches, or the working directory.
 git config – Configure Git settings (e.g., username, email).
 git show <commit-hash> – Show details of a specific commit.
 git rm <file> – Remove a file from the repository and working directory.
+
+Les comandes git a faire
