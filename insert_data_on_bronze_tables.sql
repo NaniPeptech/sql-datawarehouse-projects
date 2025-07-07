@@ -25,6 +25,7 @@ BEGIN
 	PRINT'Loading CRM Files';
 	PRINT'----------------------------------------------';
 
+	---Truncate table bronze.crm_cust_info 
 	PRINT'>> Truncating Table :bronze.crm_cust_info <<';
 	TRUNCATE TABLE bronze.crm_cust_info;
 	---BULK INSERT for bronze.crm_cust_info
@@ -37,7 +38,7 @@ BEGIN
 		TABLOCK -- to lock the table during the insertion it's imprve performance
 
 	);
-
+	--Truncate table bronze.crm_prd_info 
 	PRINT'>> Truncating Table :bronze.crm_prd_info <<';
 	TRUNCATE TABLE bronze.crm_prd_info;
 	---BULK INSERT for bronze.crm_prd_info
@@ -51,6 +52,7 @@ BEGIN
 
 	);
 
+	-- Truncate table bronze.crm_sales_details
 	PRINT'>> Truncating Table :bronze.crm_sales_details <<';
 	TRUNCATE TABLE bronze.crm_sales_details;
 	---BULK INSERT for bronze.crm_sales_details
@@ -67,6 +69,8 @@ BEGIN
 	PRINT'----------------------------------------------';
 	PRINT'Loading ERP Files';
 	PRINT'----------------------------------------------';
+
+	--Truncata table bronze.erp_loc_a101
 	PRINT'>> Truncating Table :bronze.erp_loc_a101 <<';
 	TRUNCATE TABLE bronze.erp_loc_a101;
 	---BULK INSERT for bronze.erp_loc_a101
@@ -80,6 +84,8 @@ BEGIN
 
 	);
 
+
+	---Truncate table bronze.erp_cust_az12
 	PRINT'>> Truncating Table :bronze.erp_cust_az12 <<';
 	TRUNCATE TABLE bronze.erp_cust_az12;
 	---BULK INSERT for bronze.erp_cust_az12
@@ -93,6 +99,7 @@ BEGIN
 
 	);
 
+	---Truncate table bronze.erp_px_cat_g1v2
 	PRINT'>> Truncating Table :bronze.erp_px_cat_g1v2 <<';
 	TRUNCATE TABLE bronze.erp_px_cat_g1v2;
 	---BULK INSERT for bronze.erp_px_cat_g1v2
