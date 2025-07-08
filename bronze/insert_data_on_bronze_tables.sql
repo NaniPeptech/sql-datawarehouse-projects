@@ -13,10 +13,17 @@ WARNINGS:
 	1)compare records of the file vs table
 	2)compare columns order of the file vs table
 	3) check if column number contain separator to avoid mismatch on table column, if it's the case replace it by different separator
+
+PARAMETERS: 
+	No parameters are accepted in this stored porcedure
+
 */
 
 CREATE OR ALTER PROCEDURE bronze.load_src_files AS
 BEGIN
+    DECLARE @start_time DATETIME , @end_time DATETIME, @start_batch_time DATETIME, @end_batch_time DATETIME
+    BEGIN TRY 
+	SET @start_batch_time = GETDATE();
 	PRINT'==============================================';
 	PRINT'Loading Bronze Layer Files';
 	PRINT'==============================================';
@@ -25,7 +32,7 @@ BEGIN
 	PRINT'Loading CRM Files';
 	PRINT'----------------------------------------------';
 
-	---Truncate table bronze.crm_cust_info 
+    SET @start_time = GETDATE();
 	PRINT'>> Truncating Table :bronze.crm_cust_info <<';
 	TRUNCATE TABLE bronze.crm_cust_info;
 	---BULK INSERT for bronze.crm_cust_info
@@ -38,7 +45,11 @@ BEGIN
 		TABLOCK -- to lock the table during the insertion it's imprve performance
 
 	);
-	--Truncate table bronze.crm_prd_info 
+    SET @end_time = GETDATE();
+    PRINT '>> Load duration ' + CAST(DATEDIFF(second,@start_time,@end_time) as NVARCHAR) + ' seconds'
+    PRINT'-------------------'
+
+    SET @start_time = GETDATE();
 	PRINT'>> Truncating Table :bronze.crm_prd_info <<';
 	TRUNCATE TABLE bronze.crm_prd_info;
 	---BULK INSERT for bronze.crm_prd_info
@@ -51,8 +62,11 @@ BEGIN
 		TABLOCK -- to lock the table during the insertion it's imprve performance
 
 	);
+    SET @end_time = GETDATE();
+    PRINT '>> Load duration ' + CAST(DATEDIFF(second,@start_time,@end_time) as NVARCHAR) + ' seconds'
+    PRINT'-------------------'
 
-	-- Truncate table bronze.crm_sales_details
+    SET @start_time = GETDATE();
 	PRINT'>> Truncating Table :bronze.crm_sales_details <<';
 	TRUNCATE TABLE bronze.crm_sales_details;
 	---BULK INSERT for bronze.crm_sales_details
@@ -65,12 +79,16 @@ BEGIN
 		TABLOCK -- to lock the table during the insertion it's imprve performance
 
 	);
+    SET @end_time = GETDATE();
+    PRINT '>> Load duration ' + CAST(DATEDIFF(second,@start_time,@end_time) as NVARCHAR) + ' seconds'
+    PRINT'-------------------'
 
+   
 	PRINT'----------------------------------------------';
 	PRINT'Loading ERP Files';
 	PRINT'----------------------------------------------';
 
-	--Truncata table bronze.erp_loc_a101
+    SET @start_time = GETDATE();
 	PRINT'>> Truncating Table :bronze.erp_loc_a101 <<';
 	TRUNCATE TABLE bronze.erp_loc_a101;
 	---BULK INSERT for bronze.erp_loc_a101
@@ -83,9 +101,11 @@ BEGIN
 		TABLOCK -- to lock the table during the insertion it's imprve performance
 
 	);
+    SET @end_time = GETDATE();
+    PRINT '>> Load duration ' + CAST(DATEDIFF(second,@start_time,@end_time) as NVARCHAR) + ' seconds'
+    PRINT'-------------------'
 
-
-	---Truncate table bronze.erp_cust_az12
+    SET @start_time = GETDATE();
 	PRINT'>> Truncating Table :bronze.erp_cust_az12 <<';
 	TRUNCATE TABLE bronze.erp_cust_az12;
 	---BULK INSERT for bronze.erp_cust_az12
@@ -98,8 +118,10 @@ BEGIN
 		TABLOCK -- to lock the table during the insertion it's imprve performance
 
 	);
+    SET @end_time = GETDATE();
+    PRINT '>> Load duration ' + CAST(DATEDIFF(second,@start_time,@end_time) as NVARCHAR) + ' seconds'
+    PRINT'-------------------';
 
-	---Truncate table bronze.erp_px_cat_g1v2
 	PRINT'>> Truncating Table :bronze.erp_px_cat_g1v2 <<';
 	TRUNCATE TABLE bronze.erp_px_cat_g1v2;
 	---BULK INSERT for bronze.erp_px_cat_g1v2
@@ -112,4 +134,23 @@ BEGIN
 		TABLOCK -- to lock the table during the insertion it's imprve performance
 
 	);
+    SET @end_time = GETDATE();
+    PRINT '>> Load duration ' + CAST(DATEDIFF(second,@start_time,@end_time) as NVARCHAR) + ' seconds'
+    PRINT'-------------------'
+
+    SET @end_batch_time = GETDATE();
+	
+	PRINT'------------------------------------------------------------------------------------------------------------';
+	PRINT '>> Load Batch duration ' + CAST(DATEDIFF(second,@start_batch_time,@end_batch_time) as NVARCHAR) + ' seconds'
+    PRINT'-------------------------------------------------------------------------------------------------------------';
+
+    END TRY
+    BEGIN CATCH
+    PRINT'================================================';
+	PRINT'Error occured during Loading Bronze Layer Files';
+    PRINT'Error Message ' + Error_Message();
+    PRINT'Error Number ' + CAST(Error_Number() AS NVARCHAR);
+    PRINT'Error State ' + CAST(Error_State() AS NVARCHAR);
+	PRINT'================================================';
+    END CATCH
 END
